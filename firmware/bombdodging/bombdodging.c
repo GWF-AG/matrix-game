@@ -24,7 +24,7 @@ static void lcd_start(void)
 {
     app_lcd_print_title();
     SSD1306_GotoXY(0, APP_LCD_ROW_GAME_NAME);
-    SSD1306_Puts("Bombdodging", &Font_7x10, 1);
+    SSD1306_Puts("BombDodging", &Font_7x10, 1);
     SSD1306_UpdateScreen();
 }
 
@@ -32,11 +32,13 @@ void bombdodging(void)
 {
     cursor_t cursor = { .row = 0, .col = 0 };
 
+    srand(HAL_GetTick());
+
     // Place bomb randomly
     cursor_t bomb;
     do {
-        bomb.row = rand() % 8;
-        bomb.col = rand() % 8;
+        bomb.row = rand() % MAX7219_ROW_AMOUNT;
+        bomb.col = rand() % MAX7219_COLUMN_AMOUNT;
     } while (bomb.row == cursor.row && bomb.col == cursor.col);
 
     // Fill matrix with false and keep visited count
