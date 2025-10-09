@@ -1,0 +1,129 @@
+/**
+ * @file    bombdodging.c
+ * @author  Francisco Da Silva (francisco.dasilva@gwf.ch)
+ * @copyright Copyright (c) 2025 GWF AG
+ */
+
+#include "bombdodging.h"
+
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include <stdint.h>
+
+#include "app.h"
+#include "max7219.h"
+#include "ssd1306.h"
+
+typedef struct {
+    uint8_t row;
+    uint8_t col;
+} cursor_t;
+
+static void lcd_start(void)
+{
+    app_lcd_print_title();
+    SSD1306_GotoXY(0, APP_LCD_ROW_GAME_NAME);
+    SSD1306_Puts("BombDodging", &Font_7x10, 1);
+    SSD1306_UpdateScreen();
+}
+
+void bombdodging(void)
+{
+    cursor_t cursor = { .row = 0, .col = 0 };
+
+    srand(HAL_GetTick());
+
+    // Place bomb randomly
+    cursor_t bomb;
+    do {
+        bomb.row = rand() % MAX7219_ROW_AMOUNT;
+        bomb.col = rand() % MAX7219_COLUMN_AMOUNT;
+    } while (bomb.row == cursor.row && bomb.col == cursor.col);
+
+    // Fill matrix with false and keep visited count
+    bool visited[MAX7219_COLUMN_AMOUNT][MAX7219_ROW_AMOUNT] = { false };
+    int  visited_count                                      = 1; // start position is marked
+    visited[cursor.col][cursor.row]                         = true;
+
+    app_matrix_clean(matrix);
+    matrix[cursor.col][cursor.row] = true;
+    max7219_set_matrix(&max7219, matrix);
+
+    lcd_start();
+
+    while (1) {
+        // Read user button
+        button_t button = app_get_user_input();
+
+        // Update cursor
+        switch (button) {
+        case BUTTON_RIGHT:
+            if (cursor.col < MAX7219_COLUMN_AMOUNT - 1) {
+                cursor.col++;
+            }
+            break;
+
+        case BUTTON_LEFT:
+            if (cursor.col > 0) {
+                cursor.col--;
+            }
+            break;
+
+        case BUTTON_UP:
+            if (cursor.row > 0) {
+                cursor.row--;
+            }
+            break;
+
+        case BUTTON_DOWN:
+            if (cursor.row < MAX7219_ROW_AMOUNT - 1) {
+                cursor.row++;
+            }
+            break;
+
+        case BUTTON_CENTER:
+            return; // end
+
+        default:
+            break;
+        }
+
+        // Check for collision with hidden bomb
+        if (cursor.row == bomb.row && cursor.col == bomb.col) {
+            // Game Over Text
+            SSD1306_GotoXY(0, APP_LCD_ROW_GAME_DYNAMIC_0);
+            SSD1306_Puts("Booom!", &Font_7x10, 1);
+            SSD1306_GotoXY(0, APP_LCD_ROW_GAME_DYNAMIC_1);
+            SSD1306_Puts("Game Over", &Font_7x10, 1);
+            SSD1306_UpdateScreen();
+            app_beep(BEEP_LONG_MS);
+            while (app_get_user_input() == BUTTON_NONE) {
+                // Wait
+            }
+            return; // End game
+        }
+
+        // Mark cell as visited only if it wasn't before
+        if (!visited[cursor.col][cursor.row]) {
+            visited[cursor.col][cursor.row] = true;
+            visited_count++;
+        }
+
+        // Draw player path
+        matrix[cursor.col][cursor.row] = true;
+        max7219_set_matrix(&max7219, matrix);
+
+        // Check win
+        if (visited_count == 63 && !visited[bomb.col][bomb.row]) {
+            SSD1306_GotoXY(0, APP_LCD_ROW_GAME_NAME + 20);
+            SSD1306_Puts("YOU WIN!", &Font_7x10, 1);
+            SSD1306_UpdateScreen();
+            app_beep(BEEP_LONG_MS);
+            while (app_get_user_input() == BUTTON_NONE) {
+                // Wait for user to press a button
+            }
+            return;
+        }
+    }
+}
