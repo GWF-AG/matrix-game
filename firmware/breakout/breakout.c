@@ -15,19 +15,14 @@
 #include "max7219.h"
 #include "ssd1306.h"
 
-#define PADDLE_WIDTH        3
-#define WALL_INITIAL_HEIGHT 4
-
-void app_matrix_clean(bool matrix[MAX7219_COLUMN_AMOUNT][MAX7219_ROW_AMOUNT]);
+#define PADDLE_WIDTH         3
+#define PADDLE_INIT_POSITION 2 // x-position of left side of paddle
+#define WALL_INITIAL_HEIGHT  4
 
 typedef struct {
     int8_t x, y;   // ball position
     int8_t dx, dy; // direction
 } ball_t;
-
-static uint8_t paddle = 2; // x-position of left side of paddle
-static ball_t  ball;
-static bool    wall[MAX7219_COLUMN_AMOUNT][MAX7219_ROW_AMOUNT]; // 8x8 matrix
 
 static void lcd_start(void);
 static void update_matrix(bool    matrix[MAX7219_COLUMN_AMOUNT][MAX7219_ROW_AMOUNT],
@@ -45,7 +40,10 @@ static void paddle_collision_handling(uint8_t paddle, ball_t* ball);
 
 void breakout(void)
 {
-    bool is_game_over = false;
+    bool    is_game_over = false;
+    uint8_t paddle       = PADDLE_INIT_POSITION; // x-position of left side of paddle
+    ball_t  ball;
+    bool    wall[MAX7219_COLUMN_AMOUNT][MAX7219_ROW_AMOUNT]; // 8x8 matrix
 
     lcd_start();
     app_matrix_clean(matrix);
@@ -205,9 +203,13 @@ static void update_matrix(bool    matrix[MAX7219_COLUMN_AMOUNT][MAX7219_ROW_AMOU
 
 static void wall_init(bool wall[MAX7219_COLUMN_AMOUNT][MAX7219_ROW_AMOUNT])
 {
-    for (uint8_t row = 0; row < WALL_INITIAL_HEIGHT; row++) {
+    for (uint8_t row = 0; row < MAX7219_ROW_AMOUNT; row++) {
         for (uint8_t col = 0; col < MAX7219_COLUMN_AMOUNT; col++) {
-            wall[col][row] = true;
+            if (row < WALL_INITIAL_HEIGHT) {
+                wall[col][row] = true;
+            } else {
+                wall[col][row] = false;
+            }
         }
     }
 }
