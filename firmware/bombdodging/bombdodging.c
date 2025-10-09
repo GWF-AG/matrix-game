@@ -63,21 +63,28 @@ void bombdodging(void)
                 cursor.col++;
             }
             break;
+
         case BUTTON_LEFT:
             if (cursor.col > 0) {
                 cursor.col--;
             }
             break;
+
         case BUTTON_UP:
             if (cursor.row > 0) {
                 cursor.row--;
             }
             break;
+
         case BUTTON_DOWN:
             if (cursor.row < MAX7219_ROW_AMOUNT - 1) {
                 cursor.row++;
             }
             break;
+
+        case BUTTON_CENTER:
+            return; // end
+
         default:
             break;
         }
