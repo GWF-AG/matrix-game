@@ -43,8 +43,8 @@ void bombdodging(void)
 
     // Fill matrix with false and keep visited count
     bool visited[MAX7219_COLUMN_AMOUNT][MAX7219_ROW_AMOUNT] = { false };
-    int  visited_count              = 1; // start position is marked
-    visited[cursor.row][cursor.col] = true;
+    int  visited_count                                      = 1; // start position is marked
+    visited[cursor.col][cursor.row]                         = true;
 
     app_matrix_clean(matrix);
     matrix[cursor.col][cursor.row] = true;
@@ -98,8 +98,8 @@ void bombdodging(void)
         }
 
         // Mark cell as visited only if it wasn't before
-        if (!visited[cursor.row][cursor.col]) {
-            visited[cursor.row][cursor.col] = true;
+        if (!visited[cursor.col][cursor.row]) {
+            visited[cursor.col][cursor.row] = true;
             visited_count++;
         }
 
@@ -108,7 +108,7 @@ void bombdodging(void)
         max7219_set_matrix(&max7219, matrix);
 
         // Check win
-        if (visited_count == 63 && !visited[bomb.row][bomb.col]) {
+        if (visited_count == 63 && !visited[bomb.col][bomb.row]) {
             SSD1306_GotoXY(0, APP_LCD_ROW_GAME_NAME + 20);
             SSD1306_Puts("YOU WIN!", &Font_7x10, 1);
             SSD1306_UpdateScreen();
