@@ -1,5 +1,11 @@
 # Matrix-Game Firmware Changelog
 
+## [v1.5] -- 2025-10-09
+============================
+
+### Added:
+    - [games] added Breakout game
+
 ## [v1.4] -- 2025-10-09
 ============================
 
