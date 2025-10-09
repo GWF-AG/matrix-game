@@ -42,7 +42,7 @@ void bombdodging(void)
     } while (bomb.row == cursor.row && bomb.col == cursor.col);
 
     // Fill matrix with false and keep visited count
-    bool visited[8][8]              = { false };
+    bool visited[MAX7219_COLUMN_AMOUNT][MAX7219_ROW_AMOUNT] = { false };
     int  visited_count              = 1; // start position is marked
     visited[cursor.row][cursor.col] = true;
 
