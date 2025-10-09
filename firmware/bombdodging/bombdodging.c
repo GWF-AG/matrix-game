@@ -28,7 +28,8 @@ static void lcd_start(void)
     SSD1306_UpdateScreen();
 }
 
-void bombdodging(void) {
+void bombdodging(void)
+{
     cursor_t cursor = { .row = 0, .col = 0 };
 
     // Place bomb randomly
@@ -39,8 +40,8 @@ void bombdodging(void) {
     } while (bomb.row == cursor.row && bomb.col == cursor.col);
 
     // Fill matrix with false and keep visited count
-    bool visited[8][8] = { false };
-    int visited_count = 1; // start position is marked
+    bool visited[8][8]              = { false };
+    int  visited_count              = 1; // start position is marked
     visited[cursor.row][cursor.col] = true;
 
     app_matrix_clean(matrix);
@@ -55,29 +56,37 @@ void bombdodging(void) {
 
         // Update cursor
         switch (button) {
-            case BUTTON_RIGHT:
-                if (cursor.col < MAX7219_COLUMN_AMOUNT - 1) cursor.col++;
-                break;
-            case BUTTON_LEFT:
-                if (cursor.col > 0) cursor.col--;
-                break;
-            case BUTTON_UP:
-                if (cursor.row > 0) cursor.row--;
-                break;
-            case BUTTON_DOWN:
-                if (cursor.row < MAX7219_ROW_AMOUNT -1 ) cursor.row++;
-                break;
-            default:
-                break;
+        case BUTTON_RIGHT:
+            if (cursor.col < MAX7219_COLUMN_AMOUNT - 1) {
+                cursor.col++;
+            }
+            break;
+        case BUTTON_LEFT:
+            if (cursor.col > 0) {
+                cursor.col--;
+            }
+            break;
+        case BUTTON_UP:
+            if (cursor.row > 0) {
+                cursor.row--;
+            }
+            break;
+        case BUTTON_DOWN:
+            if (cursor.row < MAX7219_ROW_AMOUNT - 1) {
+                cursor.row++;
+            }
+            break;
+        default:
+            break;
         }
 
         // Check for collision with hidden bomb
         if (cursor.row == bomb.row && cursor.col == bomb.col) {
             // Game Over Text
-            SSD1306_GotoXY(0, APP_LCD_ROW_GAME_NAME + 20);
-            SSD1306_Puts("BOOOOM!!!", &Font_7x10, 1);
+            SSD1306_GotoXY(0, APP_LCD_ROW_GAME_DYNAMIC_0);
+            SSD1306_Puts("Booom!", &Font_7x10, 1);
             SSD1306_GotoXY(0, APP_LCD_ROW_GAME_DYNAMIC_1);
-            SSD1306_Puts("Game Over!", &Font_7x10, 1);
+            SSD1306_Puts("Game Over", &Font_7x10, 1);
             SSD1306_UpdateScreen();
             app_beep(BEEP_LONG_MS);
             while (app_get_user_input() == BUTTON_NONE) {
