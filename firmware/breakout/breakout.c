@@ -18,7 +18,7 @@
 #define PADDLE_WIDTH         3
 #define PADDLE_INIT_POSITION 2 // x-position of left side of paddle
 #define WALL_INITIAL_HEIGHT  4
-#define BALL_PERIOD_10MS     30 // how long it takes for the ball to make one step [10ms]
+#define BALL_PERIOD_10MS     15 // how long it takes for the ball to make one step [10ms]
 
 typedef struct {
     int8_t x, y;   // ball position
