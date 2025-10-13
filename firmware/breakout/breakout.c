@@ -18,6 +18,7 @@
 #define PADDLE_WIDTH         3
 #define PADDLE_INIT_POSITION 2 // x-position of left side of paddle
 #define WALL_INITIAL_HEIGHT  4
+#define BALL_PERIOD_10MS     30 // how long it takes for the ball to make one step [10ms]
 
 typedef struct {
     int8_t x, y;   // ball position
@@ -218,7 +219,7 @@ static void update_ball(ball_t* ball)
 {
     static uint16_t counter = 0;
 
-    if (counter >= 30) {
+    if (counter >= BALL_PERIOD_10MS) {
         counter = 0;
         ball->y = ball->y + ball->dy;
         ball->x = ball->x + ball->dx;
