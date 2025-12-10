@@ -19,6 +19,9 @@ The project is used to practice soldering, measuring and potentially some coding
 The firmware currently supports the following games:
 - [x] Snake
 - [x] Tic-Tac-Toe
+- [x] Drawing
+- [x] Bomb Dodging
+- [ ] Breakout
 
 Feel free to submit a Pull Request to add more games! :tada:
 
@@ -27,3 +30,4 @@ Feel free to submit a Pull Request to add more games! :tada:
 The changelogs can be find in the corresponding subdirectories:
 - [Firmware Changelog](firmware/CHANGELOG.md)
 - [Hardware Changelog](hardware/CHANGELOG.md)
+
