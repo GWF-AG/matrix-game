@@ -7291,7 +7291,7 @@
 		(layer "Edge.Cuts")
 		(uuid "cd5c14db-4ea1-47de-933b-bb697c734d9b")
 	)
-	(gr_text "Schnupperlehre Elektroniker/in\nProjekt Matrix-Game\nv1.1"
+	(gr_text "Schnupperlehre Elektroniker/in\nProjekt Matrix-Game\nv1.2"
 		(at 91.45 143.525 0)
 		(layer "F.SilkS")
 		(uuid "348ed015-36c6-4b5d-b6ca-f18414238b92")
