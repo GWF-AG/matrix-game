@@ -1,5 +1,12 @@
 # Matrix-Game Hardware Changelog
 
+## [v1.2] -- 2026-08-12
+============================
+
+### Fixed:
+    - [schematic] Replaced old pin headers with new 1x16, 2.54mm pin headers
+    - [layout]    Replaced old pin headers with new 1x16, 2.54mm pin headers
+
 ## [v1.1] -- 2025-02-24
 ============================
 

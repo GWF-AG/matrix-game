@@ -9,8 +9,8 @@
 	(paper "A4")
 	(title_block
 		(title "Schnupperlehre Elektroniker/in | Projekt Matrix-Game")
-		(date "2025-02-24")
-		(rev "v1.1")
+		(date "2026-08-13")
+		(rev "v1.2")
 		(company "GWF AG")
 		(comment 1 "Timon Burkard")
 	)
@@ -7330,7 +7330,7 @@
 		(layer "Edge.Cuts")
 		(uuid "cd5c14db-4ea1-47de-933b-bb697c734d9b")
 	)
-	(gr_text "Schnupperlehre Elektroniker/in\nProjekt Matrix-Game\nv1.1"
+	(gr_text "Schnupperlehre Elektroniker/in\nProjekt Matrix-Game\n${REVISION}"
 		(at 91.45 143.525 0)
 		(layer "F.SilkS")
 		(uuid "348ed015-36c6-4b5d-b6ca-f18414238b92")
